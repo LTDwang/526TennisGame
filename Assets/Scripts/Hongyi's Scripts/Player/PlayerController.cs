@@ -20,22 +20,25 @@ public class PlayerController : MonoBehaviour
     float hardHitForce = 5f;
     [SerializeField]
     private Player player;
-
     public Player PlayerID
     {
         get { return player; }
     }
-
     public int horizontalMoveDir = 0; // 1 for right, 0 not moving, -1 for left
     public int ifHit = 0; // 1 for soft, 2 for hard, 0 for no
     public bool ifJump = false;
-
     [SerializeField]
     private Rigidbody2D ball = null;
     private Rigidbody2D rb;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        HandleServe();
     }
 
     private void FixedUpdate()
@@ -44,19 +47,37 @@ public class PlayerController : MonoBehaviour
         HitBall();
     }
 
+    private void HandleServe()
+    {
+        if (RoundSystem.Instance == null)
+            return;
+        if (!RoundSystem.Instance.WaitingForServe)
+            return;
+        if (ifHit == 0)
+            return;
+        if (ifHit != 1)
+        {
+            ifHit = 0;
+            return;
+        }
+        if (!RoundSystem.Instance.TryResumeRound(player))
+        {
+            ifHit = 0;
+            return;
+        }
+        ifHit = 0;
+    }
+
     private void Move()
     {
         float horizontalSpeed = movingSpeed * horizontalMoveDir;
-
         Vector2 newSpeed = rb.velocity;
         newSpeed.x = horizontalSpeed;
-
         if (ifJump)
         {
             newSpeed.y = jumpSpeed;
             ifJump = false;
         }
-
         rb.velocity = newSpeed;
     }
 
@@ -64,15 +85,21 @@ public class PlayerController : MonoBehaviour
     {
         if (ifHit == 0)
             return;
-
         if (ball == null)
         {
             ifHit = 0;
             return;
         }
-
+        BallController ballController = ball.GetComponent<BallController>();
+        if (ballController != null)
+        {
+            if (!ballController.TryHit(player))
+            {
+                ifHit = 0;
+                return;
+            }
+        }
         Vector2 hitDir = (ball.transform.position - transform.position).normalized;
-
         if (ifHit == 1)
         {
             ball.velocity = softHitForce * hitDir;
@@ -81,7 +108,6 @@ public class PlayerController : MonoBehaviour
         {
             ball.velocity = hardHitForce * hitDir;
         }
-
         ifHit = 0;
     }
 
@@ -97,18 +123,16 @@ public class PlayerController : MonoBehaviour
             this.ball = null;
         }
     }
+
     public void ResetPlayer(Vector2 position)
     {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
-
         transform.position = position;
         rb.position = position;
-
         horizontalMoveDir = 0;
         ifJump = false;
         ifHit = 0;
-
         ball = null;
     }
 }

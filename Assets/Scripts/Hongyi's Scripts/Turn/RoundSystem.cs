@@ -1,0 +1,116 @@
+using UnityEngine;
+
+public class RoundSystem : MonoBehaviour
+{
+    public static RoundSystem Instance { get; private set; }
+
+    [Header("Players")]
+    [SerializeField]
+    private PlayerController playerOneController;
+
+    [SerializeField]
+    private PlayerController playerTwoController;
+
+    [Header("Player Reset Points")]
+    [SerializeField]
+    private Transform playerOneResetPoint;
+
+    [SerializeField]
+    private Transform playerTwoResetPoint;
+
+    [Header("Ball")]
+    [SerializeField]
+    private BallController ballController;
+
+    [SerializeField]
+    private Rigidbody2D ballRb;
+
+    [Header("Serve Points")]
+    [SerializeField]
+    private Transform playerOneServePoint;
+
+    [SerializeField]
+    private Transform playerTwoServePoint;
+
+    [Header("Serve")]
+    [SerializeField]
+    private Player firstServer = Player.playerOne;
+
+    private Player currentServer;
+    private bool waitingForServe = false;
+
+    public bool WaitingForServe
+    {
+        get { return waitingForServe; }
+    }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        currentServer = firstServer;
+        ResetRound();
+    }
+
+    public void EndRound(Player winner)
+    {
+        ScoreSystem.Instance.AddScore(winner);
+        currentServer = winner;
+        ResetRound();
+    }
+
+    private void ResetRound()
+    {
+        waitingForServe = true;
+        playerOneController.ResetPlayer(playerOneResetPoint.position);
+        playerTwoController.ResetPlayer(playerTwoResetPoint.position);
+        ballController.ResetBall();
+        if (currentServer == Player.playerOne)
+        {
+            ballRb.transform.position = playerOneServePoint.position;
+            ballRb.position = playerOneServePoint.position;
+            playerOneController.BallEnterHitRange(ballRb);
+        }
+        else
+        {
+            ballRb.transform.position = playerTwoServePoint.position;
+            ballRb.position = playerTwoServePoint.position;
+            playerTwoController.BallEnterHitRange(ballRb);
+        }
+        ballRb.velocity = Vector2.zero;
+        ballRb.angularVelocity = 0f;
+        Physics2D.SyncTransforms();
+        Time.timeScale = 0f;
+    }
+
+    public bool TryResumeRound(Player player)
+    {
+        if (!waitingForServe)
+            return false;
+
+        if (player != currentServer)
+            return false;
+
+        waitingForServe = false;
+        Time.timeScale = 1f;
+
+        return true;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+}
