@@ -36,6 +36,7 @@ public class RoundSystem : MonoBehaviour
     [SerializeField]
     private Player firstServer = Player.playerOne;
 
+    private TiltBubblePowerUp tiltBubblePowerUp;
     private Player currentServer;
     private bool waitingForServe = false;
 
@@ -53,6 +54,7 @@ public class RoundSystem : MonoBehaviour
         }
 
         Instance = this;
+        tiltBubblePowerUp = FindFirstObjectByType<TiltBubblePowerUp>();
     }
 
     private void Start()
@@ -70,6 +72,11 @@ public class RoundSystem : MonoBehaviour
 
     private void ResetRound()
     {
+        if (tiltBubblePowerUp != null)
+        {
+            tiltBubblePowerUp.ResetPowerUp();
+        }
+
         waitingForServe = true;
         playerOneController.ResetPlayer(playerOneResetPoint.position);
         playerTwoController.ResetPlayer(playerTwoResetPoint.position);
