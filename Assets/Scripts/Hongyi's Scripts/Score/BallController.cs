@@ -26,6 +26,12 @@ public class BallController : MonoBehaviour
         hasLastHitPlayer = true;
         return true;
     }
+    
+    public bool GetLastHitPlayer(out Player player)
+    {
+        player = lastHitPlayer;
+        return hasLastHitPlayer;
+    }
 
     public void HitGround(Player groundOwner)
     {

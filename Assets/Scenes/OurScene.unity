@@ -935,6 +935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f5a19ee0ac041499d63a5e89306a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldOwner: 0
   resetRotation: 0
 --- !u!1 &656356108
 GameObject:
@@ -2089,6 +2090,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5255f9de34c4e459dd615571b1a900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1929443291
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465442544882564055, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7834512096385274106, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: playerOneField
+      value: 
+      objectReference: {fileID: 647003565}
+    - target: {fileID: 7834512096385274106, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: playerTwoField
+      value: 
+      objectReference: {fileID: 2116089208}
+    - target: {fileID: 7873462229676214328, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_GravityScale
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349075126481037291, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: movementAreaSize.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349075126481037291, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: movementAreaCenter.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8862402383113166701, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
+      propertyPath: m_Name
+      value: Bubble
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12e7c6814718d834380e0bdf0b76e560, type: 3}
 --- !u!1 &2109101890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,6 +2278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f5a19ee0ac041499d63a5e89306a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldOwner: 1
   resetRotation: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -2210,3 +2290,4 @@ SceneRoots:
   - {fileID: 19355068}
   - {fileID: 1908840646}
   - {fileID: 999230278}
+  - {fileID: 1929443291}

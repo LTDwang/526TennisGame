@@ -3,19 +3,27 @@ using UnityEngine;
 public class FieldRotation : MonoBehaviour
 {
     [SerializeField]
+    private Player fieldOwner;
+
+    public Player FieldOwner
+    {
+        get { return fieldOwner; }
+    }
+
+    [SerializeField]
     private float resetRotation = 0f;
-    private float tiltSpeed = 180f;
+    private float tiltSpeed = 60f;
 
     private float currentRotation;
 
     public bool IsTilted { get; private set; }
 
-    private Rigidbody2D rb;
     private float targetRotation;
-    private float holdTimer = 5f;
+    private float holdTimer;
     private bool holding;
-
-    private void Start()
+    private Rigidbody2D rb;
+    
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
@@ -23,7 +31,9 @@ public class FieldRotation : MonoBehaviour
             Debug.LogWarning("Field needs a Rigidbody2D.");
             return;
         }
+    }
 
+    private void Start() {
         currentRotation = resetRotation;
         rb.MoveRotation(resetRotation);
         IsTilted = false;
@@ -44,10 +54,18 @@ public class FieldRotation : MonoBehaviour
         holding = false;
     }
 
+    public void ResetField()
+    {
+        currentRotation = resetRotation;
+        targetRotation = resetRotation;
+        holdTimer = 0f;
+        holding = false;
+        IsTilted = false;
+        rb.rotation = resetRotation;
+    }
+
     private void FixedUpdate()
     {
-        if (rb == null) return;
-
         currentRotation = rb.rotation;
         if (!IsTilted) return;
 
