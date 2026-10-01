@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class ScoreSystem : MonoBehaviour
 {
     public static ScoreSystem Instance { get; private set; }
 
     [SerializeField]
-    private Text scoreTxt;
+    private TMP_Text scoreTxt;
 
     [SerializeField]
     private int playerOne = 0;
