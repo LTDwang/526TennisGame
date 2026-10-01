@@ -10,8 +10,9 @@ public class FieldRotation : MonoBehaviour
         get { return fieldOwner; }
     }
 
-    [SerializeField]
     private float resetRotation = 0f;
+    
+    [SerializeField]
     private float tiltSpeed = 60f;
 
     private float currentRotation;

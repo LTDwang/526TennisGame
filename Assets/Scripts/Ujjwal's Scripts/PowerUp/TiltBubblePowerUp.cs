@@ -4,7 +4,7 @@ using UnityEngine;
 public class TiltBubblePowerUp : MonoBehaviour
 {
     [SerializeField]
-    private float tiltAngle = -10f;
+    private float tiltAngle = 5f;
 
     [SerializeField]
     private float tiltHoldDuration = 3f;
@@ -63,7 +63,9 @@ public class TiltBubblePowerUp : MonoBehaviour
             return;
         }
 
-        opponentField.Tilt(tiltAngle, tiltHoldDuration);
+        float signedTiltAngle = tiltAngle * (collector == Player.playerOne ? -1 : 1);
+
+        opponentField.Tilt(signedTiltAngle, tiltHoldDuration);
         HidePickup();
         StartCoroutine(SpawnAfterRandomDelay());
     }
