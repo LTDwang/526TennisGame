@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Rigidbody2D ball = null;
     private Rigidbody2D rb;
+    private readonly ContactPoint2D[] groundContacts = new ContactPoint2D[8];
 
     private void Awake()
     {
@@ -73,12 +74,36 @@ public class PlayerController : MonoBehaviour
         float horizontalSpeed = movingSpeed * horizontalMoveDir;
         Vector2 newSpeed = rb.velocity;
         newSpeed.x = horizontalSpeed;
-        if (ifJump)
+        if (ifJump && IsGrounded())
         {
             newSpeed.y = jumpSpeed;
-            ifJump = false;
         }
+        ifJump = false;
         rb.velocity = newSpeed;
+    }
+
+    private bool IsGrounded()
+    {
+        int contactCount = rb.GetContacts(groundContacts);
+
+        for (int i = 0; i < contactCount; i++)
+        {
+            ContactPoint2D contact = groundContacts[i];
+            bool touchesField = IsFieldCollider(contact.collider) ||
+                                IsFieldCollider(contact.otherCollider);
+
+            if (touchesField && Mathf.Abs(contact.normal.y) > 0.5f)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsFieldCollider(Collider2D collider)
+    {
+        return collider != null && collider.GetComponentInParent<FieldRotation>() != null;
     }
 
     private void HitBall()
