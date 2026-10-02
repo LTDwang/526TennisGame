@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    [Header("Bounce Settings")]
+    [SerializeField]
+    private int maxAllowedBounces = 2;
+    private int bounceCount = 0;
     private Player lastHitPlayer;
     private bool hasLastHitPlayer = false;
     private bool roundEnded = false;
-
     private Rigidbody2D rb;
 
     private void Awake()
@@ -24,20 +27,25 @@ public class BallController : MonoBehaviour
         }
         lastHitPlayer = player;
         hasLastHitPlayer = true;
+        bounceCount = 0;
         return true;
-    }
-    
-    public bool GetLastHitPlayer(out Player player)
-    {
-        player = lastHitPlayer;
-        return hasLastHitPlayer;
     }
 
     public void HitGround(Player groundOwner)
     {
         if (roundEnded)
             return;
-        GiveScoreToOpponent(groundOwner);
+        bounceCount++;
+        Debug.Log(
+            "Ball bounced on " +
+            groundOwner +
+            ". Bounce count: " +
+            bounceCount
+        );
+        if (bounceCount > maxAllowedBounces)
+        {
+            GiveScoreToOpponent(groundOwner);
+        }
     }
 
     public void HitNet()
@@ -71,6 +79,7 @@ public class BallController : MonoBehaviour
             EndRound(Player.playerOne);
         }
     }
+
     private void EndRound(Player winner)
     {
         if (roundEnded)
@@ -83,11 +92,26 @@ public class BallController : MonoBehaviour
 
         RoundSystem.Instance.EndRound(winner);
     }
+
     public void ResetBall()
     {
         hasLastHitPlayer = false;
         roundEnded = false;
+
+        bounceCount = 0;
+
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
+    }
+    public bool GetLastHitPlayer(out Player player)
+    {
+        if (!hasLastHitPlayer)
+        {
+            player = default;
+            return false;
+        }
+
+        player = lastHitPlayer;
+        return true;
     }
 }

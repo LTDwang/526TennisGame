@@ -65,7 +65,9 @@ public class RoundSystem : MonoBehaviour
 
     public void EndRound(Player winner)
     {
-        ScoreSystem.Instance.AddScore(winner);
+        bool gameEnded = ScoreSystem.Instance.AddScore(winner);
+        if (gameEnded)
+            return;
         currentServer = winner;
         ResetRound();
     }
