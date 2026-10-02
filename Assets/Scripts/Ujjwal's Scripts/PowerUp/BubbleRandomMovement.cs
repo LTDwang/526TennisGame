@@ -20,6 +20,28 @@ public class BubbleRandomMovement : MonoBehaviour
     private float directionChangeTimer;
     private bool isMoving = true;
 
+    private void OnDrawGizmos()
+    {
+        Vector3 areaCenter = new Vector3(
+            movementAreaCenter.x,
+            movementAreaCenter.y,
+            transform.position.z);
+        Vector3 areaSize = new Vector3(
+            movementAreaSize.x,
+            movementAreaSize.y,
+            0f);
+        Gizmos.color = new Color(0.2f, 0.85f, 1f, 0.9f);
+        Gizmos.DrawWireCube(areaCenter, areaSize);
+
+        if (Application.isPlaying && isMoving)
+        {
+            Vector3 target = new Vector3(movementTarget.x, movementTarget.y, transform.position.z);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, target);
+            Gizmos.DrawWireSphere(target, 0.15f);
+        }
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,7 +49,7 @@ public class BubbleRandomMovement : MonoBehaviour
 
     private void Start()
     {
-        MoveToTopCenter();
+        MoveToRandomSpawnPoint();
         ChooseMovementTarget();
     }
 
@@ -60,7 +82,7 @@ public class BubbleRandomMovement : MonoBehaviour
 
         if (isMoving)
         {
-            MoveToTopCenter();
+            MoveToRandomSpawnPoint();
             ChooseMovementTarget();
         }
     }
@@ -71,11 +93,9 @@ public class BubbleRandomMovement : MonoBehaviour
         directionChangeTimer = directionChangeInterval;
     }
 
-    private void MoveToTopCenter()
+    private void MoveToRandomSpawnPoint()
     {
-        rb.position = new Vector2(
-            movementAreaCenter.x,
-            movementAreaCenter.y + movementAreaSize.y * 0.5f);
+        rb.position = GetRandomPointInMovementArea();
     }
 
     private Vector2 GetRandomPointInMovementArea()
