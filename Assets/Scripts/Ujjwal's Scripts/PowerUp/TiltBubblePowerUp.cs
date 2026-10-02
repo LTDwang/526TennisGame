@@ -34,20 +34,24 @@ public class TiltBubblePowerUp : MonoBehaviour
         float signedTiltAngle = tiltAngle * sign;
         opponentField.Tilt(signedTiltAngle, tiltHoldDuration);
         //HidePickup();
+        
+        TileResetTimer resetTimer = TileResetTimer.Instance;
+        if (resetTimer == null) return;
+
         if (collector == Player.playerOne)
         {
-            TileResetTimer.Instance.SetTimerTwo(tiltHoldDuration);
+            resetTimer.SetTimerTwo(tiltHoldDuration);
         }
         else
         {
-            TileResetTimer.Instance.SetTimerOne(tiltHoldDuration);
+            resetTimer.SetTimerOne(tiltHoldDuration);
         }
         //StartCoroutine(SpawnAfterRandomDelay());
     }
 
     public void ResetEffect()
     {
-        playerOneField.ResetField();
-        playerTwoField.ResetField();
+        if (playerOneField != null) playerOneField.ResetField();
+        if (playerTwoField != null) playerTwoField.ResetField();
     }
 }
