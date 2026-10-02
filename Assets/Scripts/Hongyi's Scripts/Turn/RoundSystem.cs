@@ -85,13 +85,11 @@ public class RoundSystem : MonoBehaviour
         {
             ballRb.transform.position = playerOneServePoint.position;
             ballRb.position = playerOneServePoint.position;
-            playerOneController.BallEnterHitRange(ballRb);
         }
         else
         {
             ballRb.transform.position = playerTwoServePoint.position;
             ballRb.position = playerTwoServePoint.position;
-            playerTwoController.BallEnterHitRange(ballRb);
         }
         ballRb.velocity = Vector2.zero;
         ballRb.angularVelocity = 0f;

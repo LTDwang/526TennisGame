@@ -11,15 +11,12 @@ public class PlayerHitTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ball"))
-        {
-            Rigidbody2D ballRb = other.attachedRigidbody;
+        RegisterBall(other);
+    }
 
-            if (ballRb != null)
-            {
-                playerController.BallEnterHitRange(ballRb);
-            }
-        }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        RegisterBall(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -27,11 +24,21 @@ public class PlayerHitTrigger : MonoBehaviour
         if (other.CompareTag("Ball"))
         {
             Rigidbody2D ballRb = other.attachedRigidbody;
-
             if (ballRb != null)
             {
                 playerController.BallExitHitRange(ballRb);
             }
+        }
+    }
+
+    private void RegisterBall(Collider2D other)
+    {
+        if (!other.CompareTag("Ball"))
+            return;
+        Rigidbody2D ballRb = other.attachedRigidbody;
+        if (ballRb != null)
+        {
+            playerController.BallEnterHitRange(ballRb);
         }
     }
 }

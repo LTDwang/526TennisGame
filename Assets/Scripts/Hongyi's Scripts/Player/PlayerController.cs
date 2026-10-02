@@ -29,25 +29,33 @@ public class PlayerController : MonoBehaviour
     public bool ifJump = false;
     [SerializeField]
     private Rigidbody2D ball = null;
+    public bool BallInHitRange
+    {
+        get { return ball != null; }
+    }
+    [Header("Hit Buffer")]
+    [SerializeField]
+    private float hitBufferTime = 0.15f;
+    private int bufferedHit = 0;
+    private float hitBufferTimer = 0f;
     private Rigidbody2D rb;
     private readonly ContactPoint2D[] groundContacts = new ContactPoint2D[8];
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
     private void Update()
     {
         HandleServe();
+        if (RoundSystem.Instance != null && RoundSystem.Instance.WaitingForServe)
+            return;
+        UpdateHitBuffer();
     }
-
     private void FixedUpdate()
     {
         Move();
         HitBall();
     }
-
     private void HandleServe()
     {
         if (RoundSystem.Instance == null)
@@ -67,6 +75,26 @@ public class PlayerController : MonoBehaviour
             return;
         }
         ifHit = 0;
+        bufferedHit = 0;
+        hitBufferTimer = 0f;
+    }
+
+    private void UpdateHitBuffer()
+    {
+        if (ifHit != 0)
+        {
+            bufferedHit = ifHit;
+            hitBufferTimer = hitBufferTime;
+            ifHit = 0;
+        }
+        if (bufferedHit != 0)
+        {
+            hitBufferTimer -= Time.unscaledDeltaTime;
+            if (hitBufferTimer <= 0f)
+            {
+                ClearHitBuffer();
+            }
+        }
     }
 
     private void Move()
@@ -81,66 +109,65 @@ public class PlayerController : MonoBehaviour
         ifJump = false;
         rb.velocity = newSpeed;
     }
-
     private bool IsGrounded()
     {
         int contactCount = rb.GetContacts(groundContacts);
-
         for (int i = 0; i < contactCount; i++)
         {
             ContactPoint2D contact = groundContacts[i];
-            bool touchesField = IsFieldCollider(contact.collider) ||
-                                IsFieldCollider(contact.otherCollider);
 
+            bool touchesField =
+                IsFieldCollider(contact.collider) ||
+                IsFieldCollider(contact.otherCollider);
             if (touchesField && Mathf.Abs(contact.normal.y) > 0.5f)
             {
                 return true;
             }
         }
-
         return false;
     }
-
     private bool IsFieldCollider(Collider2D collider)
     {
-        return collider != null && collider.GetComponentInParent<FieldRotation>() != null;
+        return collider != null &&
+               collider.GetComponentInParent<FieldRotation>() != null;
     }
-
     private void HitBall()
     {
-        if (ifHit == 0)
+        if (bufferedHit == 0)
             return;
         if (ball == null)
-        {
-            ifHit = 0;
             return;
-        }
         BallController ballController = ball.GetComponent<BallController>();
         if (ballController != null)
         {
             if (!ballController.TryHit(player))
             {
-                ifHit = 0;
+                ClearHitBuffer();
                 return;
             }
         }
-        Vector2 hitDir = (ball.transform.position - transform.position).normalized;
-        if (ifHit == 1)
+        Vector2 hitDir =
+            (ball.transform.position - transform.position).normalized;
+
+        if (bufferedHit == 1)
         {
             ball.velocity = softHitForce * hitDir;
         }
-        else if (ifHit == 2)
+        else if (bufferedHit == 2)
         {
             ball.velocity = hardHitForce * hitDir;
         }
-        ifHit = 0;
+        ClearHitBuffer();
     }
-
+    private void ClearHitBuffer()
+    {
+        bufferedHit = 0;
+        hitBufferTimer = 0f;
+    }
     public void BallEnterHitRange(Rigidbody2D ball)
     {
         this.ball = ball;
     }
-
     public void BallExitHitRange(Rigidbody2D ball)
     {
         if (this.ball == ball)
@@ -148,16 +175,20 @@ public class PlayerController : MonoBehaviour
             this.ball = null;
         }
     }
-
     public void ResetPlayer(Vector2 position)
     {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
+
         transform.position = position;
         rb.position = position;
+
         horizontalMoveDir = 0;
         ifJump = false;
         ifHit = 0;
+
         ball = null;
+
+        ClearHitBuffer();
     }
 }
