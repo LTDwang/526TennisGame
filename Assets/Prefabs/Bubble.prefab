@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 7873462229676214328}
   - component: {fileID: 6409283589012475312}
   - component: {fileID: 7834512096385274106}
+  - component: {fileID: 7415909734872631150}
+  - component: {fileID: 7415909734872631151}
+  - component: {fileID: 7415909734872631152}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -165,3 +168,48 @@ MonoBehaviour:
   tiltHoldDuration: 3
   playerOneField: {fileID: 0}
   playerTwoField: {fileID: 0}
+--- !u!114 &7415909734872631150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8862402383113166701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fabe174db07594545b2b49ebd0c3afb9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  minimumSpawnDelay: 1
+  maximumSpawnDelay: 5
+  tiltBubbleColor: {r: 0.35, g: 0.8, b: 1, a: 0.45}
+  growBubbleColor: {r: 0.35, g: 1, b: 0.45, a: 0.45}
+  shrinkBubbleColor: {r: 1, g: 0.45, b: 0.75, a: 0.45}
+--- !u!114 &7415909734872631151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8862402383113166701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34e93cd36ee64daaa705f21eb17d569d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  sizeMultiplier: 1.5
+  effectDuration: 5
+--- !u!114 &7415909734872631152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8862402383113166701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b73272a79149b1882362d983ae43eb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  sizeMultiplier: 0.65
+  effectDuration: 5
