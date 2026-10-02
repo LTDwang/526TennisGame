@@ -8,11 +8,17 @@ public class PlayerAI : MonoBehaviour
     private Transform ball;
     [Header("Movement")]
     [SerializeField]
+    private GameObject minXPoint;
+    [SerializeField]
+    private GameObject maxXPoint;
+    [SerializeField]
     private float minX;
     [SerializeField]
     private float maxX;
     [SerializeField]
     private float horizontalDeadZone = 0.3f;
+    [SerializeField]
+    private GameObject homePoint;
     [SerializeField]
     private float homeX;
     [Header("Jump")]
@@ -34,6 +40,9 @@ public class PlayerAI : MonoBehaviour
         {
             controller = GetComponent<PlayerController>();
         }
+        minX = minXPoint.transform.position.x;
+        maxX = maxXPoint.transform.position.x;
+        homeX = homePoint.transform.position.x;
     }
     private void Update()
     {

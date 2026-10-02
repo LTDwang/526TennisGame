@@ -17,7 +17,7 @@ public class TiltBubblePowerUp : MonoBehaviour
 
     private Collider2D pickupCollider;
     private SpriteRenderer pickupRenderer;
-    private BubbleRandomMovement randomMovement;
+    //private BubbleRandomMovement randomMovement;
     private bool isAvailable = true;
 
     [SerializeField] private FieldRotation playerOneField;
@@ -27,7 +27,7 @@ public class TiltBubblePowerUp : MonoBehaviour
     {
         pickupCollider = GetComponent<Collider2D>();
         pickupRenderer = GetComponent<SpriteRenderer>();
-        randomMovement = GetComponent<BubbleRandomMovement>();
+        //randomMovement = GetComponent<BubbleRandomMovement>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -104,7 +104,7 @@ public class TiltBubblePowerUp : MonoBehaviour
     public void ResetPickup()
     {
         isAvailable = true;
-        randomMovement.SetMoving(true);
+        //randomMovement.SetMoving(true);
         pickupCollider.enabled = true;
         pickupRenderer.enabled = true;
     }
@@ -112,7 +112,7 @@ public class TiltBubblePowerUp : MonoBehaviour
     private void HidePickup()
     {
         isAvailable = false;
-        randomMovement.SetMoving(false);
+        //randomMovement.SetMoving(false);
         pickupCollider.enabled = false;
         pickupRenderer.enabled = false;
     }

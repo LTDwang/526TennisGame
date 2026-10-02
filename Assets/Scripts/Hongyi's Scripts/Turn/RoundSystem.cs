@@ -74,7 +74,7 @@ public class RoundSystem : MonoBehaviour
     {
         if (tiltBubblePowerUp != null)
         {
-            tiltBubblePowerUp.ResetPowerUp();
+            //tiltBubblePowerUp.ResetPowerUp();
         }
 
         waitingForServe = true;

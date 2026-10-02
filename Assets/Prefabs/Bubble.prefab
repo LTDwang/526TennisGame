@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiltAngle: -5
-  tiltHoldDuration: 3
+  tiltHoldDuration: 10
+  minimumSpawnDelay: 1
+  maximumSpawnDelay: 5
   playerOneField: {fileID: 0}
   playerTwoField: {fileID: 0}
