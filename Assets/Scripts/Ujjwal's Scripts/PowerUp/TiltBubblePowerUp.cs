@@ -6,6 +6,7 @@ public class TiltBubblePowerUp : MonoBehaviour
     private float tiltAngle = 5f;
     [SerializeField]
     private float tiltHoldDuration = 3f;
+    public float TiltHoldDuration { get { return tiltHoldDuration; } }
 
     [SerializeField] private FieldRotation playerOneField;
     [SerializeField] private FieldRotation playerTwoField;
@@ -32,6 +33,16 @@ public class TiltBubblePowerUp : MonoBehaviour
 
         float signedTiltAngle = tiltAngle * sign;
         opponentField.Tilt(signedTiltAngle, tiltHoldDuration);
+        //HidePickup();
+        if (collector == Player.playerOne)
+        {
+            TileResetTimer.Instance.SetTimerTwo(tiltHoldDuration);
+        }
+        else
+        {
+            TileResetTimer.Instance.SetTimerOne(tiltHoldDuration);
+        }
+        //StartCoroutine(SpawnAfterRandomDelay());
     }
 
     public void ResetEffect()

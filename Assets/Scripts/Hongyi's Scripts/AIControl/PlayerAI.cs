@@ -29,10 +29,16 @@ public class PlayerAI : MonoBehaviour
     [Header("Hit")]
     [SerializeField]
     private float hitCooldown = 0.4f;
+    [SerializeField]
+    private float hitDistance = 0.1f;
     [Range(0f, 1f)]
     [SerializeField]
     private float hardHitChance = 0.5f;
     private float nextHitTime = 0f;
+    [Header("AI Decision")]
+    [SerializeField]
+    private float decisionInterval = 0.5f;
+    private float nextDecisionTime = 0f;
     private bool wasBallInHitRange = false;
     private void Awake()
     {
@@ -48,6 +54,9 @@ public class PlayerAI : MonoBehaviour
     {
         if (controller == null || ball == null)
             return;
+        if (Time.unscaledTime < nextDecisionTime)
+            return;
+        nextDecisionTime = Time.unscaledTime + decisionInterval;
         HandleServe();
         if (RoundSystem.Instance != null && RoundSystem.Instance.WaitingForServe)
             return;
@@ -70,7 +79,7 @@ public class PlayerAI : MonoBehaviour
         float targetX;
         if (ball.position.x >= minX && ball.position.x <= maxX)
         {
-            targetX = Mathf.Clamp(ball.position.x, minX, maxX);
+            targetX = Mathf.Clamp(ball.position.x + hitDistance, minX, maxX);
         }
         else
         {
@@ -105,8 +114,14 @@ public class PlayerAI : MonoBehaviour
     private void HandleHit()
     {
         bool ballInHitRange = controller.BallInHitRange;
-        if (ballInHitRange && !wasBallInHitRange && Time.time >= nextHitTime)
+        if (!ballInHitRange)
         {
+            wasBallInHitRange = false;
+            return;
+        }
+        bool canHitLeft = ball.position.x < transform.position.x;
+        if (canHitLeft && !wasBallInHitRange && Time.time >= nextHitTime)
+        { 
             if (Random.value < hardHitChance)
             {
                 controller.ifHit = 2;
@@ -116,7 +131,7 @@ public class PlayerAI : MonoBehaviour
                 controller.ifHit = 1;
             }
             nextHitTime = Time.time + hitCooldown;
+            wasBallInHitRange = true;
         }
-        wasBallInHitRange = ballInHitRange;
     }
 }

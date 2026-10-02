@@ -172,6 +172,7 @@ MonoBehaviour:
   ifHit: 0
   ifJump: 0
   ball: {fileID: 0}
+  hitBufferTime: 0.15
 --- !u!114 &3015117375565881224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.2480838, y: 3.2480838, z: 3.2480838}
+  m_LocalScale: {x: 2.5016418, y: 2.5016418, z: 2.5016418}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8311080953714256991}

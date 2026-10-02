@@ -5,9 +5,9 @@ public class GroundScoreTrigger : MonoBehaviour
     [SerializeField]
     private Player groundOwner;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        BallController ball = other.GetComponent<BallController>();
+        BallController ball = collision.gameObject.GetComponent<BallController>();
 
         if (ball != null)
         {
