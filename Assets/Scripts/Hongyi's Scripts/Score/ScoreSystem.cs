@@ -83,6 +83,7 @@ public class ScoreSystem : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(returnDelay);
         Time.timeScale = 1f;
+        ModeChoose.Instance.BackToStart();
         SceneManager.LoadScene("StartPage");
     }
     public void ResetScore()

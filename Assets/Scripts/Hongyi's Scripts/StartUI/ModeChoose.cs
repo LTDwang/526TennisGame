@@ -27,14 +27,17 @@ public class ModeChoose : MonoBehaviour
         UIpanel.SetActive(false);
         SceneManager.LoadScene("OurScene");
     }
-
     private void Awake()
     {
         if (instance != null)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         instance = this;
         DontDestroyOnLoad(this);
+    }
+    public void BackToStart()
+    {
+        UIpanel.SetActive(true);
     }
 }
